@@ -7,7 +7,7 @@
  
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
-#include <OSCMessage.h>
+#include <OSCMessage.h>                // for sending OSC messages
 
 char ssid[] = "difix";                 // your network SSID (name)
 char pass[] = "88288828";              // your network password
