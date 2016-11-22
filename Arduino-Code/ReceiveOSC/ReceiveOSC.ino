@@ -20,15 +20,14 @@ WiFiUDP Udp;                           // A UDP instance to let us send and rece
 const unsigned int localPort = 8000;   // local port to listen for UDP packets at the NodeMCU (another device must send OSC messages to this port)
 const unsigned int destPort = 9000;    // remote port of the target device where the NodeMCU sends OSC to
 
-OSCErrorCode error;
-unsigned int ledState = 1;            // LOW means led is *on*
+unsigned int ledState = 1;             // LOW means led is *on*
 
 void setup() {
     Serial.begin(115200);
 
      // Specify a static IP address for NodeMCU
      // If you erase this line, your ESP8266 will get a dynamic IP address
-     WiFi.config(IPAddress(192,168,0,123),IPAddress(192,168,0,1), IPAddress(255,255,255,0)); 
+    WiFi.config(IPAddress(192,168,0,123),IPAddress(192,168,0,1), IPAddress(255,255,255,0)); 
 
     // Connect to WiFi network
     Serial.println();
@@ -73,27 +72,15 @@ void loop() {
 
 void toggleOnOff(OSCMessage &msg, int addrOffset){
   ledState = (boolean) msg.getFloat(0);
-  OSCMessage msgOUT("/1/toggleLED");
 
-  digitalWrite(boardLed, (ledState + 1) % 2);
-  digitalWrite(ledPin, ledState);
+  digitalWrite(boardLed, (ledState + 1) % 2);   // Onboard LED works the wrong direction (1 = 0 bzw. 0 = 1)
+  digitalWrite(ledPin, ledState);               // External LED
   
-  msgOUT.add(ledState);
   if (ledState) {
     Serial.println("LED on");
   }
   else {
     Serial.println("LED off");
   }
-
   ledState = !ledState;     // toggle the state from HIGH to LOW to HIGH to LOW ...
-
-  //send osc message back to control object in TouchOSC
-  //Local feedback is turned off in the TouchOSC interface.
-  //The button is turned on in TouchOSC interface whe the conrol receives this message.
-  Udp.beginPacket(Udp.remoteIP(), destPort);
-  msgOUT.send(Udp); // send the bytes
-  Udp.endPacket(); // mark the end of the OSC Packet
-  msgOUT.empty(); // free space occupied by message
 }
-

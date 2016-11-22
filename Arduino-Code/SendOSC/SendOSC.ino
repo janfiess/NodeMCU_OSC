@@ -13,7 +13,7 @@ char ssid[] = "difix";                 // your network SSID (name)
 char pass[] = "88288828";              // your network password
 
 // Button Input + LED Output
-const int btnPin1 = 12;                // D6
+const int btnPin = 12;                 // D6
 const int ledPin = 14;                 // D5
 const int boardLed = LED_BUILTIN;      // Builtin LED
 
@@ -21,7 +21,7 @@ boolean isBtnChanged = false;
 int btnVal = 1;  
 
 WiFiUDP Udp;                           // A UDP instance to let us send and receive packets over UDP
-const IPAddress destIp(192,168,0,3);    // remote IP of the target device
+const IPAddress destIp(192,168,0,3);   // remote IP of the target device
 const unsigned int destPort = 9000;    // remote port of the target device where the NodeMCU sends OSC to
 const unsigned int localPort = 8000;   // local port to listen for UDP packets at the NodeMCU (another device must send OSC messages to this port)
 
@@ -54,7 +54,7 @@ void setup() {
     Serial.println(Udp.localPort());
 
     // btnInput + LED Output
-    pinMode(btnPin1, INPUT);
+    pinMode(btnPin, INPUT);
     pinMode(ledPin, OUTPUT);
     pinMode(boardLed, OUTPUT); 
 }
@@ -63,9 +63,9 @@ void loop() {
     // read btnInput and send OSC
     OSCMessage msgOut("/1/buttonListener");
 
-    if(digitalRead(btnPin1) != btnVal) {
+    if(digitalRead(btnPin) != btnVal) {
       isBtnChanged = true;
-      btnVal = digitalRead(btnPin1);
+      btnVal = digitalRead(btnPin);
     }
 
     if(isBtnChanged == true){
