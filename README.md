@@ -1,4 +1,5 @@
-Voilà the project files for my instructable on YouTube.
+Voilà the project files for my instructable on YouTube:
+https://youtu.be/GKnuqrTxj9k
 
 This tutorial shows how to make a low budget NodeMCU wireless IoT controller communicate over OSC. The controller board is using an ESP8266 chip and is coded using Arduino. 
 We cover all the steps (hooking up the board, installling the required software, coding) in order to make the controller board
